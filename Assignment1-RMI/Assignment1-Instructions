@@ -1,0 +1,91 @@
+🧠 Big Picture
+
+Your application consists of:
+
+    A client that wants to use a service (string concatenation),
+
+    A server that offers the service,
+
+    A remote interface that defines the method,
+
+    A servant object that implements that method.
+
+▶️ Step-by-Step Program Flow
+
+Step 1: Compilation
+
+    You compile all Java files: javac *.java
+
+    This generates .class files for all 4 Java files.
+
+Step 2: Starting RMI Registry
+
+    You start the rmiregistry in the directory with the .class files.
+
+    This allows the server to register a remote object under a name (like a phonebook or service directory).
+
+Step 3: Running the Server
+
+	File: Server.java
+
+	Servant s = new Servant();
+	Naming.rebind("Server", s);
+
+	What happens:
+
+    	Servant object is created — this is your remote object that implements ServerInterface.
+
+    	Naming.rebind("Server", s):
+
+        Registers this servant object with the RMI registry under the name "Server".
+
+        Now any client can look up "Server" and access the servant remotely.
+
+Step 4: Client Execution
+
+	File: Client.java
+
+	String server = s.nextLine(); // user types "localhost"
+	ServerInterface si = (ServerInterface) Naming.lookup("rmi://" + server + "/Server");
+
+	What happens:
+
+    	The client asks the user for the server address (typically localhost if running locally).
+
+    	Naming.lookup(...):
+
+        Connects to the RMI registry on that server.
+
+        Searches for the object registered with the name "Server".
+
+        Returns a stub (proxy object) implementing ServerInterface.
+
+    	The stub makes it look like the method is local — but it actually communicates over the network.
+
+Step 5: Remote Method Call
+
+	File: Client.java
+
+	String result = si.concat(first, second);
+
+	What happens:
+
+	    The client calls concat(first, second) on the stub.
+
+	    The stub sends the request over the network to the actual Servant object on the server.
+
+	    The server receives the parameters, executes return a + b;, and sends the result back.
+
+	    The client prints the result.
+
+🧾 Behind the Scenes:
+
+    RMI internally handles:
+
+        Marshaling (converting data to send over the network)
+
+        Remote method invocation
+
+        Unmarshaling (converting result back to Java types)
+
+    	The client doesn’t need to know whether the method is local or remote — it just works!
