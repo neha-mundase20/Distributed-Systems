@@ -1,0 +1,52 @@
+Yes, exactly — MPI_Scatter, MPI_Init, MPI_Comm_size, and others like them are predefined functions provided by the MPI library. They are part of the MPI (Message Passing Interface) standard, which helps you write programs that run on multiple processors or computers in parallel.
+
+Let’s break them down simply:
+✅ MPI_Init(&argc, &argv)
+
+    What it does: Initializes the MPI environment.
+
+    Why it’s needed: This must be the first MPI function you call in any MPI program.
+
+    Think of it like: Starting the engine of your MPI car 🚗 before driving.
+
+✅ MPI_Comm_size(MPI_COMM_WORLD, &size)
+
+    What it does: Finds out how many processors (or processes) are involved in your program.
+
+    MPI_COMM_WORLD: This is a communicator — it means “all the processes working together”.
+
+    Stores result in: size (an integer).
+
+    Think of it like: Asking "How many people are working with me?"
+
+✅ MPI_Comm_rank(MPI_COMM_WORLD, &rank)
+
+    What it does: Finds the unique ID (rank) of the current processor.
+
+    Ranks start from: 0 to (size - 1)
+
+    Think of it like: Asking “Who am I in the team?”
+
+✅ MPI_Scatter(...)
+
+    What it does: Sends parts of an array from the master process (rank 0) to all other processes.
+
+    Why use it: So each process gets only the data it needs to work on.
+
+    Think of it like: One teacher giving different parts of a worksheet to 4 students.
+
+✅ MPI_Reduce(...)
+
+    What it does: Collects values from all processors and combines them (e.g., using sum, max, etc.).
+
+    Used to get final result in the master processor.
+
+✅ MPI_Finalize()
+
+    What it does: Shuts down the MPI environment.
+
+    Think of it like: Turning off the engine once all tasks are done.
+
+These functions are defined in the MPI library, and they become available when you:
+
+#include <mpi.h>
