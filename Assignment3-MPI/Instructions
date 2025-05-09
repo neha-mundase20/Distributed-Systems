@@ -1,3 +1,19 @@
+2. Compile the code using mpicc (MPI C Compiler):
+
+mpicc mpi_sum.c -o mpi_sum
+
+This creates an executable file named mpi_sum.
+
+
+
+3. Run the program with mpirun or mpiexec, specifying the number of processes:
+
+mpirun -np 4 ./mpi_sum
+
+This runs your program using 4 processes. Make sure the number of processes divides 12 (your array size) evenly.
+
+
+
 Yes, exactly — MPI_Scatter, MPI_Init, MPI_Comm_size, and others like them are predefined functions provided by the MPI library. They are part of the MPI (Message Passing Interface) standard, which helps you write programs that run on multiple processors or computers in parallel.
 
 Let’s break them down simply:
